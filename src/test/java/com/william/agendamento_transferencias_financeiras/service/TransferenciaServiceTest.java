@@ -3,6 +3,7 @@ package com.william.agendamento_transferencias_financeiras.service;
 import com.william.agendamento_transferencias_financeiras.dtos.TransferenciaRequest;
 import com.william.agendamento_transferencias_financeiras.dtos.TransferenciaResponse;
 import com.william.agendamento_transferencias_financeiras.entity.Transferencia;
+import com.william.agendamento_transferencias_financeiras.exceptions.TaxaNaoAplicavelException;
 import com.william.agendamento_transferencias_financeiras.repository.TransferenciaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -123,6 +125,13 @@ public class TransferenciaServiceTest {
         TransferenciaResponse response = service.agendarTransferencia(request);
 
         assertEquals(new BigDecimal("17.00"), response.getTaxa());
+    }
+
+    @Test
+    void deveLancarExcecaoParaMaisDe50Dias() {
+        request.setDataTransferencia(LocalDate.now().plusDays(51));
+
+        assertThrows(TaxaNaoAplicavelException.class, () -> service.agendarTransferencia(request));
     }
 
     private void mockSave(){
