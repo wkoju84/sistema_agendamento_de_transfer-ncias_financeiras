@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransferenciaService {
@@ -19,6 +21,30 @@ public class TransferenciaService {
 
     public TransferenciaService(TransferenciaRepository repository) {
         this.repository = repository;
+    }
+
+    public TransferenciaResponse agendarTransferencia(TransferenciaRequest request){
+        long dias = ChronoUnit.DAYS.between(LocalDate.now(), request.getDataTransferencia());
+        BigDecimal taxa = calcularTaxa(dias, request.getValor());
+
+        Transferencia transferencia = new Transferencia(
+                request.getContaOrigem(),
+                request.getContaDestino(),
+                request.getValor(),
+                taxa,
+                request.getDataTransferencia(),
+                LocalDate.now()
+        );
+
+        Transferencia transferenciaSalva = repository.save(transferencia);
+        return new TransferenciaResponse(transferenciaSalva);
+    }
+
+    public List<TransferenciaResponse> listarTodos(){
+        return repository.findAll()
+                .stream()
+                .map(TransferenciaResponse::new)
+                .collect(Collectors.toList());
     }
 
     private BigDecimal calcularTaxa(long dias, BigDecimal valor) {
