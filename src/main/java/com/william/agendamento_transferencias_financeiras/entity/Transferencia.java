@@ -1,6 +1,6 @@
 package com.william.agendamento_transferencias_financeiras.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -34,9 +34,8 @@ public class Transferencia {
     public Transferencia() {
     }
 
-    public Transferencia(Long id, String contaOrigem, String contaDestino, BigDecimal valor,
+    public Transferencia(String contaOrigem, String contaDestino, BigDecimal valor,
                          BigDecimal taxa, LocalDate dataTransferencia, LocalDate dataAgendamento) {
-        this.id = id;
         this.contaOrigem = contaOrigem;
         this.contaDestino = contaDestino;
         this.valor = valor;

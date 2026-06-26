@@ -1,9 +1,9 @@
 package com.william.agendamento_transferencias_financeiras.dtos;
 
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
