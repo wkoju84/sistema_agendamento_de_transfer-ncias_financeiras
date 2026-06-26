@@ -25,4 +25,9 @@ public class TransferenciaController {
         return transferenciaService.agendarTransferencia(request);
     }
 
+    @GetMapping
+    public List<TransferenciaResponse> listar(){
+        return transferenciaService.listarTodos();
+    }
+
 }
