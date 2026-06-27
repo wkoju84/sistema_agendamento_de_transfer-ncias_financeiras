@@ -18,6 +18,7 @@ Sistema web para agendamento de transferências financeiras com cálculo automá
 
 ### Front-end
 - Vue.js 3
+- Vue Router
 - Axios
 
 ---
@@ -59,6 +60,9 @@ A taxa é calculada no Service com base na diferença em dias entre a data de ag
 | 41 a 50 | R$ 0,00 | 1,7% |
 | Acima de 50 | ❌ Inválido | — |
 
+### CORS
+Configurado via `WebMvcConfigurer` para permitir requisições do front-end em `http://localhost:5173`.
+
 ### Nota sobre versão do Java
 O enunciado solicita Java 11. O projeto foi desenvolvido com Java 11 e Spring Boot 2.7.18, última versão com suporte a Java 11. Em Java 17 seriam utilizados Records para os DTOs, eliminando boilerplate, e Switch expressions na lógica de cálculo de taxa.
 
@@ -91,16 +95,25 @@ O console do H2 estará disponível em `http://localhost:8080/h2-console`
 # Na pasta frontend
 cd frontend
 npm install
-npm run serve
+npm run dev
 ```
 
-O front-end estará disponível em `http://localhost:8081` (Vue.js CLI) ou `http://localhost:5173` (Vite)
+O front-end estará disponível em `http://localhost:5173`
+
+### Executando com Docker
+
+```bash
+docker-compose up
+```
+
+O back-end e o front-end sobem automaticamente. Não é necessário ter Java ou Node.js instalados localmente.
 
 ---
 
 ## 📡 Endpoints da API
 
 ### Agendar transferência
+
 ```http
 POST /transferencias
 Content-Type: application/json
@@ -114,9 +127,11 @@ Content-Type: application/json
 ```
 
 ### Listar agendamentos
+
 ```http
 GET /transferencias
 ```
+
 ---
 
 ## ✅ Testes
